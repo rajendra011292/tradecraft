@@ -45,11 +45,11 @@ $router->group('/app', [AuthMiddleware::class], function ($r) {
     $r->post('/plans/{id}/execute', [\App\Controllers\PlanController::class, 'execute']);
     $r->post('/plans/{id}/cancel', [\App\Controllers\PlanController::class, 'cancel']);
     $r->get('/positions', [\App\Controllers\PositionsController::class, 'index']);
+    $r->get('/positions/completed', [\App\Controllers\PositionsController::class, 'completed']);
+    $r->post('/positions/{id}/close', [\App\Controllers\PositionsController::class, 'close']);          // full close
     $r->get('/positions/{id}', [\App\Controllers\PositionsController::class, 'show']);
     $r->post('/positions/{id}/adjust', [\App\Controllers\PositionsController::class, 'adjust']);        // SL/TP only
     $r->post('/positions/{id}/partial-close', [\App\Controllers\PositionsController::class, 'partial']);
-    $r->post('/positions/{id}/close', [\App\Controllers\PositionsController::class, 'close']);          // full close
-
 });
 
 $router->dispatch();

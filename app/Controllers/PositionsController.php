@@ -50,4 +50,15 @@ class PositionsController extends Controller
         $this->app->flash->success('Position closed.');
         $this->redirect('/app/positions/'.$id);
     }
+    public function completed(): void
+{
+    $uid = (int)$this->app->session->get('user_id');
+    $positions = $this->app->db->query(
+        "SELECT * FROM trade_positions WHERE user_id = ? AND status = 'completed' ORDER BY updated_at DESC",
+        [$uid]
+    )->fetchAll();
+
+    $this->view('positions/completed', compact('positions'));
+}
+
 }

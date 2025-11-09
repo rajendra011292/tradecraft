@@ -8,21 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-gray-950 text-gray-100">
-  <header class="border-b border-gray-800">
-    <div class="max-w-5xl mx-auto p-4 flex items-center justify-between">
-      <a href="/" class="font-bold">TradeSmart</a>
-      <nav class="space-x-4">
-        <?php if (!empty($_SESSION['user_id'])): ?>
-          <a class="hover:underline" href="/app/dashboard">Dashboard</a>
-          <a class="hover:underline" href="/app/plans">Plans</a>
-          <a class="hover:underline" href="/logout">Logout</a>
-        <?php else: ?>
-          <a class="hover:underline" href="/auth/login">Login</a>
-          <a class="hover:underline" href="/auth/register">Register</a>
-        <?php endif; ?>
-      </nav>
-    </div>
-  </header>
+  <?php include __DIR__ . '/../partials/nav.php'; ?>
 
   <main class="max-w-5xl mx-auto p-4">
     <?php if (!empty($flashSuccess)): ?>

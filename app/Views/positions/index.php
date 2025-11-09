@@ -1,5 +1,10 @@
 <?php $title='Positions'; $tpl='positions/index'; ?>
-<h1 class="text-2xl font-bold mb-4">Ongoing Positions</h1>
+
+<div class="flex justify-between items-center mb-4">
+  <h1 class="text-2xl font-bold">Ongoing Positions</h1>
+  <a href="/app/positions/completed" class="underline text-sm text-gray-400 hover:text-white">View Completed</a>
+</div>
+
 <table class="w-full text-left border border-gray-800 rounded overflow-hidden text-sm">
   <thead class="bg-gray-900">
     <tr><th class="p-2">#</th><th class="p-2">Symbol</th><th class="p-2">Side</th><th class="p-2">Qty</th><th class="p-2">Entry</th><th class="p-2">SL</th><th class="p-2">TP</th><th class="p-2">Actions</th></tr>
