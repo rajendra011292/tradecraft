@@ -1,0 +1,1 @@
+<?php function now(): string { return date('Y-m-d H:i:s'); }

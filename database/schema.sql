@@ -1,0 +1,45 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  email_verified_at DATETIME NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  token VARCHAR(128) NOT NULL UNIQUE,
+  type ENUM('verify','reset') NOT NULL,
+  created_at DATETIME NOT NULL,
+  CONSTRAINT fk_tokens_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS plans (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  symbol VARCHAR(20) NOT NULL,
+  side ENUM('long','short') NOT NULL,
+  entry_price DECIMAL(15,2) NOT NULL,
+  stop_loss DECIMAL(15,2) NOT NULL,
+  target_price DECIMAL(15,2) NOT NULL,
+  notes TEXT NULL,
+  status ENUM('planned','executed','canceled') NOT NULL DEFAULT 'planned',
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  CONSTRAINT fk_plans_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS plan_events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  plan_id INT NOT NULL,
+  user_id INT NOT NULL,
+  action VARCHAR(30) NOT NULL,
+  reason VARCHAR(255) NOT NULL,
+  snapshot JSON NULL,
+  created_at DATETIME NOT NULL,
+  CONSTRAINT fk_events_plan FOREIGN KEY (plan_id) REFERENCES plans(id) ON DELETE CASCADE,
+  CONSTRAINT fk_events_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

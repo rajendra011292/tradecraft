@@ -1,0 +1,11 @@
+/vendor/
+/storage/mail/*
+/storage/logs/*
+/storage/sessions/*
+/storage/cache/*
+/.env
+.idea/
+.vscode/
+node_modules/
+composer.lock
+.DS_Store
