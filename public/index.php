@@ -37,19 +37,22 @@ $router->get('/logout', [\App\Controllers\AuthController::class, 'logout']);
 $router->group('/app', [AuthMiddleware::class], function ($r) {
     $r->get('/dashboard', [\App\Controllers\DashboardController::class, 'dashboard']);
     // Plans
-    $r->get('/plans', [\App\Controllers\PlanController::class, 'index']);
-    $r->get('/plans/create', [\App\Controllers\PlanController::class, 'create']);
-    $r->post('/plans', [\App\Controllers\PlanController::class, 'store']);
-    $r->get('/plans/{id}', [\App\Controllers\PlanController::class, 'show']);
-    $r->post('/plans/{id}/adjust', [\App\Controllers\PlanController::class, 'adjust']);
-    $r->post('/plans/{id}/execute', [\App\Controllers\PlanController::class, 'execute']);
-    $r->post('/plans/{id}/cancel', [\App\Controllers\PlanController::class, 'cancel']);
-    $r->get('/positions', [\App\Controllers\PositionsController::class, 'index']);
-    $r->get('/positions/completed', [\App\Controllers\PositionsController::class, 'completed']);
-    $r->post('/positions/{id}/close', [\App\Controllers\PositionsController::class, 'close']);          // full close
-    $r->get('/positions/{id}', [\App\Controllers\PositionsController::class, 'show']);
-    $r->post('/positions/{id}/adjust', [\App\Controllers\PositionsController::class, 'adjust']);        // SL/TP only
+    // Plans (order matters)
+$r->get('/plans',             [\App\Controllers\PlanController::class, 'index']);
+$r->get('/plans/create',      [\App\Controllers\PlanController::class, 'create']);  // <-- needs method
+$r->post('/plans',            [\App\Controllers\PlanController::class, 'store']);   // <-- needs method
+$r->get('/plans/{id}',        [\App\Controllers\PlanController::class, 'show']);
+$r->post('/plans/{id}/adjust',[\App\Controllers\PlanController::class, 'adjust']);
+$r->post('/plans/{id}/execute',[\App\Controllers\PlanController::class, 'execute']);
+$r->post('/plans/{id}/cancel',[\App\Controllers\PlanController::class, 'cancel']);
+
+    //Positions
+    $r->get('/positions',                 [\App\Controllers\PositionsController::class, 'index']);
+    $r->get('/positions/completed',       [\App\Controllers\PositionsController::class, 'completed']); // define before {id}
+    $r->get('/positions/{id}',            [\App\Controllers\PositionsController::class, 'show']);
+    $r->post('/positions/{id}/adjust',    [\App\Controllers\PositionsController::class, 'adjust']);
     $r->post('/positions/{id}/partial-close', [\App\Controllers\PositionsController::class, 'partial']);
+    $r->post('/positions/{id}/close',     [\App\Controllers\PositionsController::class, 'close']);
 });
 
 $router->dispatch();

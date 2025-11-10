@@ -1,6 +1,6 @@
 <?php
 namespace App\Middleware;
-
+use App\Services\PlanExpiry;
 use App\Core\App;
 
 class AuthMiddleware
@@ -12,5 +12,6 @@ class AuthMiddleware
         if (!$this->app->session->get('user_id')) {
             header('Location: /auth/login'); exit;
         }
+        PlanExpiry::run($this->app); // throttled, so cheap
     }
 }

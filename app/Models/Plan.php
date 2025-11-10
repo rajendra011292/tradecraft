@@ -25,43 +25,27 @@ class Plan
 
     public function create(int $userId, array $d): int
 {
-    // 23 columns ⇒ 23 placeholders
+    $expiresAt = date('Y-m-d H:i:s', strtotime('+30 days'));
     $sql = "INSERT INTO plans
         (user_id, symbol, sector, side, plan_date, timeframe, market_bias, setup_type,
          entry_price, stop_loss, target_price, capital_allocated,
          risk_percent, position_size, capital_used, rr_ratio, est_profit,
-         notes, confidence, emotion, status, created_at, updated_at)
+         notes, confidence, emotion, status, created_at, updated_at, expires_at)
         VALUES
-        (?,?,?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?)";
+        (?,?,?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?)";
 
     $this->app->db->query($sql, [
-        $userId,
-        $d['symbol'],
-        $d['sector'],
-        $d['side'],
-        $d['plan_date'],
-        $d['timeframe'],
-        $d['market_bias'],
-        $d['setup_type'],
-        $d['entry_price'],
-        $d['stop_loss'],
-        $d['target_price'],
-        $d['capital_allocated'],
-        $d['risk_percent'],
-        $d['position_size'],
-        $d['capital_used'],
-        $d['rr_ratio'],
-        $d['est_profit'],
-        $d['notes'],
-        $d['confidence'],
-        $d['emotion'],
-        'planned',          // bound as a value (keeps placeholder count correct)
-        now(),
-        now(),
+        $userId, $d['symbol'], $d['sector'], $d['side'],
+        $d['plan_date'], $d['timeframe'], $d['market_bias'], $d['setup_type'],
+        $d['entry_price'], $d['stop_loss'], $d['target_price'], $d['capital_allocated'],
+        $d['risk_percent'], $d['position_size'], $d['capital_used'], $d['rr_ratio'], $d['est_profit'],
+        $d['notes'], $d['confidence'], $d['emotion'], 'planned',
+        now(), now(), $expiresAt,
     ]);
 
     return $this->app->db->lastInsertId();
 }
+
 
 public function updateFields(int $id, int $userId, array $d): void
 {
