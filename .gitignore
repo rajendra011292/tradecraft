@@ -1,4 +1,5 @@
 /vendor/
+/src/input.css
 /storage/mail/*
 /storage/logs/*
 /storage/sessions/*
